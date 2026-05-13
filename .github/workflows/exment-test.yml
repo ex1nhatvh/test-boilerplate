@@ -102,9 +102,12 @@ jobs:
             echo "APP_KEY=$KEY" >> .env
           fi
 
-      - name: Skip config cache clear (artisan may be unavailable)
+      - name: Generate Passport RSA keys
         run: |
-          echo "Skipping php artisan config:clear because vendor/autoload.php may not exist yet."
+          php artisan passport:keys --force
+
+      - name: Clear Config Cache
+        run: php artisan config:clear
 
       - name: Run Exment Tests and capture output
         id: run-tests
