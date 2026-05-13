@@ -115,8 +115,30 @@ jobs:
         id: run-tests
         run: |
           set -o pipefail
-          composer run exment:test:browser 2>&1 | tee output.txt
-          EXIT_CODE=${PIPESTATUS[0]}
+          rm -f output.txt
+          echo '=== Browser tests ===' | tee -a output.txt
+          composer run exment:test:browser 2>&1 | tee -a output.txt
+          code1=${PIPESTATUS[0]}
+
+          echo '' | tee -a output.txt
+          echo '=== Feature tests ===' | tee -a output.txt
+          composer run exment:test:feature 2>&1 | tee -a output.txt
+          code2=${PIPESTATUS[0]}
+
+          echo '' | tee -a output.txt
+          echo '=== Unit tests ===' | tee -a output.txt
+          composer run exment:test:unit 2>&1 | tee -a output.txt
+          code3=${PIPESTATUS[0]}
+
+          EXIT_CODE=0
+          if [ "$code1" -ne 0 ]; then
+            EXIT_CODE=$code1
+          elif [ "$code2" -ne 0 ]; then
+            EXIT_CODE=$code2
+          elif [ "$code3" -ne 0 ]; then
+            EXIT_CODE=$code3
+          fi
+
           echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
           exit $EXIT_CODE
         continue-on-error: true
