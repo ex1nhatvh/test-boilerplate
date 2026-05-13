@@ -103,7 +103,7 @@ jobs:
         id: run-tests
         run: |
           set -o pipefail
-          composer run exment:test 2>&1 | tee output.txt
+          composer run exment:brower 2>&1 | tee output.txt
           EXIT_CODE=${PIPESTATUS[0]}
           echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
           exit $EXIT_CODE
