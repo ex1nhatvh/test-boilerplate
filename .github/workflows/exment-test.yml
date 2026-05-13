@@ -72,7 +72,7 @@ jobs:
 
       - name: Create .env file
         run: |
-          cp .env.example .env 2>/dev/null || cat > .env << 'EOF'
+          cat > .env << 'ENVEOF'
           APP_NAME=Exment
           APP_ENV=testing
           APP_DEBUG=true
@@ -89,19 +89,9 @@ jobs:
           SESSION_DRIVER=array
           QUEUE_CONNECTION=sync
           MAIL_MAILER=array
-          EOF
-
-          # Override DB settings to match GitHub Actions service
-          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mariadb/' .env
-          sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
-          sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env
-          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=taisandambao/' .env
-          sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
-          sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
-          sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env
-          sed -i 's/^CACHE_STORE=.*/CACHE_STORE=array/' .env
-          sed -i 's/^SESSION_DRIVER=.*/SESSION_DRIVER=array/' .env
-          sed -i 's/^QUEUE_CONNECTION=.*/QUEUE_CONNECTION=sync/' .env
+          ENVEOF
+          # Remove leading whitespace from heredoc
+          sed -i 's/^[[:space:]]*//' .env
 
       - name: Generate Application Key
         run: php artisan key:generate --no-interaction
