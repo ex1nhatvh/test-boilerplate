@@ -1,0 +1,144 @@
+name: Exment Test
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: password
+          MARIADB_DATABASE: taisandambao
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: pdo_mysql, mysql, mbstring, xml, openssl, gd, zip, bcmath, intl, fileinfo, tokenizer, json, curl
+          ini-values: memory_limit=512M, max_execution_time=600
+          coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Create .env file
+        run: |
+          cp .env.example .env 2>/dev/null || cat > .env << 'EOF'
+          APP_NAME=Exment
+          APP_ENV=testing
+          APP_DEBUG=true
+          APP_URL=http://localhost
+
+          DB_CONNECTION=mariadb
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=taisandambao
+          DB_USERNAME=root
+          DB_PASSWORD=password
+
+          CACHE_STORE=array
+          SESSION_DRIVER=array
+          QUEUE_CONNECTION=sync
+          MAIL_MAILER=array
+          EOF
+
+          # Override DB settings to match GitHub Actions service
+          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mariadb/' .env
+          sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env
+          sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env
+          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=taisandambao/' .env
+          sed -i 's/^DB_USERNAME=.*/DB_USERNAME=root/' .env
+          sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+          sed -i 's/^APP_ENV=.*/APP_ENV=testing/' .env
+          sed -i 's/^CACHE_STORE=.*/CACHE_STORE=array/' .env
+          sed -i 's/^SESSION_DRIVER=.*/SESSION_DRIVER=array/' .env
+          sed -i 's/^QUEUE_CONNECTION=.*/QUEUE_CONNECTION=sync/' .env
+
+      - name: Generate Application Key
+        run: php artisan key:generate --no-interaction
+
+      - name: Clear Config Cache
+        run: php artisan config:clear
+
+      - name: Run Exment Tests and capture output
+        id: run-tests
+        run: |
+          set -o pipefail
+          composer run exment:test 2>&1 | tee output.txt
+          EXIT_CODE=${PIPESTATUS[0]}
+          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+          exit $EXIT_CODE
+        continue-on-error: true
+
+      - name: Write Test Summary
+        run: |
+          echo "## Exment Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Exit Code:** ${{ steps.run-tests.outputs.exit_code }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -50 output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload test output as artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-output
+          path: output.txt
+          retention-days: 30
+
+      - name: Commit output.txt to test-results branch
+        if: always()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin test-results 2>/dev/null || true
+          git checkout --orphan test-results-temp
+          git reset --hard
+          cp output.txt output.txt.tmp
+          git checkout . 2>/dev/null || true
+          cp output.txt.tmp output.txt
+          git add output.txt
+          git commit -m "Test results from run ${{ github.run_number }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
+          git push origin HEAD:test-results --force
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if tests failed
+        if: steps.run-tests.outputs.exit_code != '0'
+        run: exit 1
