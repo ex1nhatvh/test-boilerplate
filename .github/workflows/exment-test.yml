@@ -93,11 +93,18 @@ jobs:
           # Remove leading whitespace from heredoc
           sed -i 's/^[[:space:]]*//' .env
 
-      - name: Generate Application Key
-        run: php artisan key:generate --no-interaction
+      - name: Generate APP_KEY (without artisan)
+        run: |
+          KEY=$(php -r "echo 'base64:'.base64_encode(random_bytes(32));")
+          if grep -q '^APP_KEY=' .env; then
+            sed -i "s/^APP_KEY=.*/APP_KEY=$KEY/" .env
+          else
+            echo "APP_KEY=$KEY" >> .env
+          fi
 
-      - name: Clear Config Cache
-        run: php artisan config:clear
+      - name: Skip config cache clear (artisan may be unavailable)
+        run: |
+          echo "Skipping php artisan config:clear because vendor/autoload.php may not exist yet."
 
       - name: Run Exment Tests and capture output
         id: run-tests
