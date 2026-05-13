@@ -40,23 +40,19 @@ jobs:
           ini-values: memory_limit=512M, max_execution_time=600
           coverage: none
 
-      - name: Modify composer.json to use VCS repos for CI
+      - name: Clone local path dependencies (exment and open-admin-core)
         run: |
-          # Configure GitHub OAuth if available (for private repos)
           if [ -n "$GH_PAT" ]; then
-            composer config github-oauth.github.com "$GH_PAT"
+            git clone --depth=1 --branch feature/laravel-12 \
+              "https://x-access-token:${GH_PAT}@github.com/exceedone/exment.git" exment
+            git clone --depth=1 --branch feature/laravel-12 \
+              "https://x-access-token:${GH_PAT}@github.com/ex1nhatvh/open-admin-core.git" open-admin-core
+          else
+            git clone --depth=1 --branch feature/laravel-12 \
+              "https://github.com/exceedone/exment.git" exment
+            git clone --depth=1 --branch feature/laravel-12 \
+              "https://github.com/ex1nhatvh/open-admin-core.git" open-admin-core
           fi
-          # Replace path repos with VCS repos and set branch constraints
-          jq '
-            .repositories = [
-              {"type": "vcs", "url": "https://github.com/exceedone/exment"},
-              {"type": "vcs", "url": "https://github.com/ex1nhatvh/open-admin-core"}
-            ] |
-            .require["exceedone/exment"] = "dev-feature/laravel-12" |
-            .require["exceedone/open-admin-core"] = "dev-feature/laravel-12"
-          ' composer.json > composer.json.tmp && mv composer.json.tmp composer.json
-          # Remove lock file so composer resolves fresh with new repo config
-          rm -f composer.lock
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
 
