@@ -125,96 +125,54 @@ jobs:
           echo $code > exit-${{ matrix.suite }}.code
         continue-on-error: true
 
-      - name: Upload suite output
-        uses: actions/upload-artifact@v4
-        if: always()
+      - name: Prepare push credentials
+        uses: actions/checkout@v4
         with:
-          name: output-${{ matrix.suite }}
-          path: |
-            output-${{ matrix.suite }}.txt
-            exit-${{ matrix.suite }}.code
-          retention-days: 30
+          fetch-depth: 0
+          persist-credentials: true
 
-  summarize:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Combine artifacts
-        id: combine
-        run: |
-          mkdir -p results
-          for s in browser feature unit; do
-            dir="artifacts/output-$s"
-            if [ -d "$dir" ]; then
-              echo "=== $s tests ===" >> results/output.txt
-              # prefer the primary output file if present
-              if [ -f "$dir/output-$s.txt" ]; then
-                cat "$dir/output-$s.txt" >> results/output.txt
-              else
-                cat $dir/*.txt >> results/output.txt || true
-              fi
-              echo "" >> results/output.txt
-            fi
-            if [ -f "$dir/exit-$s.code" ]; then
-              cp "$dir/exit-$s.code" exit-$s.code
-            fi
-          done
-
-          EXIT_CODE=0
-          for c in exit-browser.code exit-feature.code exit-unit.code; do
-            if [ -f "$c" ]; then
-              code=$(cat "$c" | tr -d '[:space:]')
-              if [ "$code" -ne 0 ]; then
-                EXIT_CODE=$code
-              fi
-            fi
-          done
-
-          echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
-
-      - name: Write Test Summary
-        run: |
-          echo "## Exment Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Exit Code:** ${{ steps.combine.outputs.exit_code }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          if [ -f results/output.txt ]; then
-            tail -n 200 results/output.txt >> $GITHUB_STEP_SUMMARY
-          fi
-          echo '```' >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload test output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Push suite output to test-results branch
         if: always()
-        with:
-          name: test-output
-          path: results/output.txt
-          retention-days: 30
-
-      - name: Commit output.txt to test-results branch
-        if: always()
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          cp results/output.txt output.txt || true
-          git fetch origin test-results 2>/dev/null || true
-          git checkout --orphan test-results-temp
-          git reset --hard
-          git add output.txt || true
-          git commit -m "Test results from run ${{ github.run_number }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))" || true
-          git push origin HEAD:test-results --force || true
-        continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Fail if tests failed
-        if: ${{ steps.combine.outputs.exit_code != '0' }}
         run: |
-          echo "One or more suites failed (exit=${{ steps.combine.outputs.exit_code }})."
-          exit ${{ steps.combine.outputs.exit_code }}
+          set -euo pipefail
+          mkdir -p test-results
+
+          # Copy outputs into unique filenames to avoid conflicts
+          cp output-${{ matrix.suite }}.txt test-results/${{ github.run_id }}-${{ matrix.suite }}.txt || true
+          if [ -f exit-${{ matrix.suite }}.code ]; then
+            cp exit-${{ matrix.suite }}.code test-results/${{ github.run_id }}-${{ matrix.suite }}.code || true
+          fi
+
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Fetch remote branch if present
+          git fetch origin test-results || true
+
+          # Checkout existing branch or create it
+          if git rev-parse --verify origin/test-results >/dev/null 2>&1; then
+            git checkout test-results || git checkout -b test-results origin/test-results
+          else
+            git checkout --orphan test-results
+            git reset --hard
+          fi
+
+          git add -A test-results/${{ github.run_id }}-${{ matrix.suite }}*
+          git commit -m "Test result: ${{ github.run_id }}-${{ matrix.suite }}" || true
+
+          # Push with retries to handle concurrent pushes
+          for i in 1 2 3; do
+            git pull --rebase origin test-results || true
+            if git push origin HEAD:test-results; then
+              echo "Push succeeded"
+              break
+            else
+              echo "Push attempt $i failed, retrying..."
+              sleep $((i * 5))
+            fi
+          done
+
+        continue-on-error: true
+  # 'summarize' job removed: per-job pushes write results to the 'test-results' branch.
