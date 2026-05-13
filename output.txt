@@ -1,0 +1,655 @@
+=== Browser tests ===
+> Composer\Config::disableProcessTimeout
+> Composer\Config::disableProcessTimeout
+> @php artisan exment:inittest --yes
+
+   INFO  Application cache cleared successfully.  
+
+   WARN  Migration table not found.  
+
+   INFO  Publishing [open-admin-lang-exment] assets.  
+
+  Copying directory [open-admin-core/resources/lang] to [resources/lang]  DONE
+
+   INFO  Publishing [open-admin-assets-exment] assets.  
+
+  Copying directory [open-admin-core/resources/assets] to [public/vendor/open-admin]  DONE
+
+   INFO  Publishing [public] assets.  
+
+  Copying directory [exment/public] to [public] ......................... DONE
+
+   INFO  Publishing [views_vendor] assets.  
+
+  Copying directory [exment/resources/views/vendor] to [resources/views/vendor]  DONE
+
+   INFO  Publishing [lang_vendor] assets.  
+
+  Copying directory [exment/resources/lang_vendor] to [resources/lang] .. DONE
+
+   INFO  Preparing database.  
+
+  Creating migration table ...................................... 17.15ms DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table .......................... 15.75ms DONE
+  0001_01_01_000001_create_cache_table ........................... 3.66ms DONE
+  0001_01_01_000002_create_jobs_table ........................... 13.98ms DONE
+  2016_01_04_173148_create_admin_tables ......................... 43.42ms DONE
+  2018_04_27_021034_create_table_define ........................ 262.27ms DONE
+  2019_03_11_193513_patch_authoritable ........................... 2.38ms DONE
+  2019_03_28_185921_oauth_clientid_uuid ......................... 26.46ms DONE
+  2019_04_15_115120_support_for_v1_1 ............................ 48.48ms DONE
+  2019_04_25_185014_drop_unique_keys ............................. 6.62ms DONE
+  2019_05_18_164730_support_for_v1_2 ............................ 92.90ms DONE
+  2019_05_23_165335_patch_user_accessable ........................ 4.72ms DONE
+  2019_05_28_165146_create_custom_column_multi ................... 5.21ms DONE
+  2019_06_06_130456_plugin_custom_option ......................... 5.14ms DONE
+  2019_06_12_193431_support_for_v1_3 ............................. 7.19ms DONE
+  2019_06_18_135639_update_custom_view_summary ................... 3.49ms DONE
+  2019_07_11_105602_support_for_v1_4 ............................ 12.45ms DONE
+  2019_07_12_120518_support_for_v2_0 ............................ 96.62ms DONE
+  2019_08_07_095018_init_column .................................. 1.69ms DONE
+  2019_08_19_151648_support_for_v2_1 ............................ 12.40ms DONE
+  2019_09_12_120518_support_for_v2_1_4 .......................... 16.41ms DONE
+  2019_09_19_093842_support_for_v2_1_7 ........................... 7.86ms DONE
+  2019_09_19_093842_support_for_v3_0_0 ......................... 134.64ms DONE
+  2020_01_16_000000_remove_deleted_column ........................ 5.56ms DONE
+  2020_02_20_155520_add_options_to_filters ....................... 4.26ms DONE
+  2020_02_26_000000_add_notify_name .............................. 3.82ms DONE
+  2020_03_22_000000_patch_dashboard_box .......................... 1.20ms DONE
+  2020_04_02_000000_api_auth_api_key ............................ 12.00ms DONE
+  2020_04_07_125924_add_options_to_workflows ..................... 2.90ms DONE
+  2020_05_01_000000_patch_log_operation_update ................... 1.08ms DONE
+  2020_05_05_000000_support_for_v3_2_0 ........................... 7.76ms DONE
+  2020_06_14_000000_support_for_v3_3_0 .......................... 35.11ms DONE
+  2020_06_16_000000_patch_form_column_relation ................... 0.58ms DONE
+  2020_06_25_000000_append_view_column_suuid .................... 14.64ms DONE
+  2020_07_03_160259_support_for_v3_4_0 ........................... 1.17ms DONE
+  2020_07_15_160217_external_custom_operation .................... 8.21ms DONE
+  2020_07_16_000000_patch_view_dashboard ......................... 2.35ms DONE
+  2020_08_14_000000_patch_view_filters ........................... 3.19ms DONE
+  2020_09_25_000000_update_notify_logic .......................... 7.47ms DONE
+  2020_09_29_000000_workflow_value_view .......................... 6.44ms DONE
+  2020_10_23_000000_patch_view_only .............................. 0.75ms DONE
+  2020_12_15_000000_patch_calc_data .............................. 0.71ms DONE
+  2021_01_05_000000_plugin_view .................................. 4.58ms DONE
+  2021_02_13_000000_patch_condition_data ......................... 1.00ms DONE
+  2021_03_05_000000_public_form_and_options ..................... 73.34ms DONE
+  2021_04_21_165617_add_options_to_custom_view_sort ............. 28.76ms DONE
+  2021_07_14_160709_add_column_type_to_operation ................. 3.45ms DONE
+  2021_07_15_092440_patch_import_export_permission ............... 0.94ms DONE
+  2021_12_02_000000_patch_mail_attachments ....................... 2.54ms DONE
+  2022_01_01_000000_workflow_patch ............................... 9.14ms DONE
+  2022_01_11_000000_patch_mail_custom_attachments ................ 2.44ms DONE
+  2022_01_13_133748_patch_laravel8 ............................... 4.40ms DONE
+  2022_01_18_000000_patch_custom_column_editable_userinfo ........ 0.78ms DONE
+  2022_06_17_133748_patch_php8 ................................... 1.02ms DONE
+  2022_10_07_000000_role_groups_patch_221007 ..................... 6.21ms DONE
+  2024_04_09_154530_add_order_to_custom_views .................... 3.34ms DONE
+  2024_05_23_174625_patch_send_mail_error_template ............... 6.03ms DONE
+  2024_06_27_123443_create_table_jan_code ........................ 8.58ms DONE
+
+
+   INFO  Seeding database.  
+
+/home/runner/work/test-boilerplate/test-boilerplate/app/Admin directory already exists ! 
+
+   INFO  Seeding database.  
+
+   INFO  Seeding database.  
+
+> @php vendor/bin/phpunit ./vendor/exceedone/exment/tests/Browser
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.31
+Configuration: /home/runner/work/test-boilerplate/test-boilerplate/phpunit.xml
+
+........................................RRR....................  63 / 131 ( 48%)
+........................mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+.mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+mysql: [Warning] Using a password on the command line interface can be insecure.
+...................................... 126 / 131 ( 96%)
+.....                                                           131 / 131 (100%)
+
+Time: 02:09.603, Memory: 171.00 MB
+
+There were 3 risky tests:
+
+1) Exceedone\Exment\Tests\Browser\CCustomFormTest::testDisplayFormSetting
+* Test code or tested code did not remove its own error handlers
+
+* Test code or tested code did not remove its own exception handlers
+
+/home/runner/work/test-boilerplate/test-boilerplate/exment/tests/Browser/CCustomFormTest.php:51
+
+2) Exceedone\Exment\Tests\Browser\CCustomFormTest::testAddFormSuccess
+* Test code or tested code did not remove its own error handlers
+
+* Test code or tested code did not remove its own exception handlers
+
+/home/runner/work/test-boilerplate/test-boilerplate/exment/tests/Browser/CCustomFormTest.php:88
+
+3) Exceedone\Exment\Tests\Browser\CCustomFormTest::testRelationFormSuccess
+* Test code or tested code did not remove its own error handlers
+
+* Test code or tested code did not remove its own exception handlers
+
+/home/runner/work/test-boilerplate/test-boilerplate/exment/tests/Browser/CCustomFormTest.php:149
+
+OK, but there were issues!
+Tests: 131, Assertions: 2422, Risky: 3.
+
+=== Feature tests ===
+> Composer\Config::disableProcessTimeout
+> Composer\Config::disableProcessTimeout
+> @php artisan exment:inittest --yes
+
+   INFO  Application cache cleared successfully.  
+
+   INFO  Rolling back migrations.  
+
+  2024_06_27_123443_create_table_jan_code ........................ 3.83ms DONE
+  2024_05_23_174625_patch_send_mail_error_template ............... 0.03ms DONE
+  2024_04_09_154530_add_order_to_custom_views .................... 3.97ms DONE
+  2022_10_07_000000_role_groups_patch_221007 ..................... 6.03ms DONE
+  2022_06_17_133748_patch_php8 ................................... 4.81ms DONE
+  2022_01_18_000000_patch_custom_column_editable_userinfo ........ 0.03ms DONE
+  2022_01_13_133748_patch_laravel8 ............................... 1.58ms DONE
+  2022_01_11_000000_patch_mail_custom_attachments ................ 0.03ms DONE
+  2022_01_01_000000_workflow_patch ............................... 6.63ms DONE
+  2021_12_02_000000_patch_mail_attachments ....................... 0.04ms DONE
+  2021_07_15_092440_patch_import_export_permission ............... 0.03ms DONE
+  2021_07_14_160709_add_column_type_to_operation ................. 3.47ms DONE
+  2021_04_21_165617_add_options_to_custom_view_sort ............. 28.36ms DONE
+  2021_03_05_000000_public_form_and_options ...................... 1.66ms DONE
+  2021_02_13_000000_patch_condition_data ......................... 0.05ms DONE
+  2021_01_05_000000_plugin_view .................................. 5.41ms DONE
+  2020_12_15_000000_patch_calc_data .............................. 0.04ms DONE
+  2020_10_23_000000_patch_view_only .............................. 0.05ms DONE
+  2020_09_29_000000_workflow_value_view .......................... 1.95ms DONE
+  2020_09_25_000000_update_notify_logic ......................... 10.29ms DONE
+  2020_08_14_000000_patch_view_filters ........................... 0.04ms DONE
+  2020_07_16_000000_patch_view_dashboard ......................... 0.04ms DONE
+  2020_07_15_160217_external_custom_operation .................... 9.54ms DONE
+  2020_07_03_160259_support_for_v3_4_0 ........................... 0.03ms DONE
+  2020_06_25_000000_append_view_column_suuid .................... 15.50ms DONE
+  2020_06_16_000000_patch_form_column_relation ................... 0.03ms DONE
+  2020_06_14_000000_support_for_v3_3_0 .......................... 10.74ms DONE
+  2020_05_05_000000_support_for_v3_2_0 ........................... 9.14ms DONE
+  2020_05_01_000000_patch_log_operation_update ................... 0.03ms DONE
+  2020_04_07_125924_add_options_to_workflows ..................... 3.34ms DONE
+  2020_04_02_000000_api_auth_api_key ............................. 5.71ms DONE
+  2020_03_22_000000_patch_dashboard_box .......................... 0.08ms DONE
+  2020_02_26_000000_add_notify_name .............................. 6.58ms DONE
+  2020_02_20_155520_add_options_to_filters ....................... 8.56ms DONE
+  2020_01_16_000000_remove_deleted_column ........................ 0.06ms DONE
+  2019_09_19_093842_support_for_v3_0_0 .......................... 19.28ms DONE
+  2019_09_19_093842_support_for_v2_1_7 ........................... 1.65ms DONE
+  2019_09_12_120518_support_for_v2_1_4 ........................... 0.03ms DONE
+  2019_08_19_151648_support_for_v2_1 ............................. 2.83ms DONE
+  2019_08_07_095018_init_column .................................. 0.03ms DONE
+  2019_07_12_120518_support_for_v2_0 ............................. 8.39ms DONE
+  2019_07_11_105602_support_for_v1_4 ............................. 2.71ms DONE
+  2019_06_18_135639_update_custom_view_summary ................... 4.12ms DONE
+  2019_06_12_193431_support_for_v1_3 ............................. 0.03ms DONE
+  2019_06_06_130456_plugin_custom_option ......................... 0.04ms DONE
+  2019_05_28_165146_create_custom_column_multi ................... 1.88ms DONE
+  2019_05_23_165335_patch_user_accessable ........................ 0.04ms DONE
+  2019_05_18_164730_support_for_v1_2 ............................ 11.05ms DONE
+  2019_04_25_185014_drop_unique_keys ............................ 12.62ms DONE
+  2019_04_15_115120_support_for_v1_1 ............................ 24.42ms DONE
+  2019_03_28_185921_oauth_clientid_uuid .......................... 7.55ms DONE
+  2019_03_11_193513_patch_authoritable ........................... 0.04ms DONE
+  2018_04_27_021034_create_table_define ........................ 131.95ms DONE
+  2016_01_04_173148_create_admin_tables .......................... 8.97ms DONE
+  0001_01_01_000002_create_jobs_table ............................ 4.37ms DONE
+  0001_01_01_000001_create_cache_table ........................... 2.63ms DONE
+  0001_01_01_000000_create_users_table ........................... 4.09ms DONE
+
+
+   INFO  Publishing [open-admin-lang-exment] assets.  
+
+  Copying directory [open-admin-core/resources/lang] to [resources/lang]  DONE
+
+   INFO  Publishing [open-admin-assets-exment] assets.  
+
+  Copying directory [open-admin-core/resources/assets] to [public/vendor/open-admin]  DONE
+
+   INFO  Publishing [public] assets.  
+
+  Copying directory [exment/public] to [public] ......................... DONE
+
+   INFO  Publishing [views_vendor] assets.  
+
+  Copying directory [exment/resources/views/vendor] to [resources/views/vendor]  DONE
+
+   INFO  Publishing [lang_vendor] assets.  
+
+  Copying directory [exment/resources/lang_vendor] to [resources/lang] .. DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table .......................... 15.82ms DONE
+  0001_01_01_000001_create_cache_table ........................... 3.87ms DONE
+  0001_01_01_000002_create_jobs_table ........................... 14.42ms DONE
+  2016_01_04_173148_create_admin_tables ......................... 52.07ms DONE
+  2018_04_27_021034_create_table_define ........................ 261.76ms DONE
+  2019_03_11_193513_patch_authoritable ........................... 2.48ms DONE
+  2019_03_28_185921_oauth_clientid_uuid ......................... 26.45ms DONE
+  2019_04_15_115120_support_for_v1_1 ............................ 47.22ms DONE
+  2019_04_25_185014_drop_unique_keys ............................. 6.39ms DONE
+  2019_05_18_164730_support_for_v1_2 ............................ 95.70ms DONE
+  2019_05_23_165335_patch_user_accessable ........................ 2.16ms DONE
+  2019_05_28_165146_create_custom_column_multi ................... 5.07ms DONE
+  2019_06_06_130456_plugin_custom_option ......................... 5.83ms DONE
+  2019_06_12_193431_support_for_v1_3 ............................. 5.76ms DONE
+  2019_06_18_135639_update_custom_view_summary ................... 3.22ms DONE
+  2019_07_11_105602_support_for_v1_4 ............................ 12.86ms DONE
+  2019_07_12_120518_support_for_v2_0 ............................ 92.88ms DONE
+  2019_08_07_095018_init_column .................................. 1.63ms DONE
+  2019_08_19_151648_support_for_v2_1 ............................ 12.25ms DONE
+  2019_09_12_120518_support_for_v2_1_4 .......................... 13.90ms DONE
+  2019_09_19_093842_support_for_v2_1_7 ........................... 7.26ms DONE
+  2019_09_19_093842_support_for_v3_0_0 ......................... 137.87ms DONE
+  2020_01_16_000000_remove_deleted_column ........................ 5.31ms DONE
+  2020_02_20_155520_add_options_to_filters ....................... 4.58ms DONE
+  2020_02_26_000000_add_notify_name .............................. 3.84ms DONE
+  2020_03_22_000000_patch_dashboard_box .......................... 1.13ms DONE
+  2020_04_02_000000_api_auth_api_key ............................ 11.61ms DONE
+  2020_04_07_125924_add_options_to_workflows ..................... 3.23ms DONE
+  2020_05_01_000000_patch_log_operation_update ................... 1.05ms DONE
+  2020_05_05_000000_support_for_v3_2_0 ........................... 8.37ms DONE
+  2020_06_14_000000_support_for_v3_3_0 .......................... 34.99ms DONE
+  2020_06_16_000000_patch_form_column_relation ................... 0.61ms DONE
+  2020_06_25_000000_append_view_column_suuid .................... 12.96ms DONE
+  2020_07_03_160259_support_for_v3_4_0 ........................... 1.17ms DONE
+  2020_07_15_160217_external_custom_operation ................... 10.10ms DONE
+  2020_07_16_000000_patch_view_dashboard ......................... 2.74ms DONE
+  2020_08_14_000000_patch_view_filters ........................... 4.33ms DONE
+  2020_09_25_000000_update_notify_logic .......................... 7.69ms DONE
+  2020_09_29_000000_workflow_value_view .......................... 5.34ms DONE
+  2020_10_23_000000_patch_view_only .............................. 0.60ms DONE
+  2020_12_15_000000_patch_calc_data .............................. 0.53ms DONE
+  2021_01_05_000000_plugin_view .................................. 4.32ms DONE
+  2021_02_13_000000_patch_condition_data ......................... 0.93ms DONE
+  2021_03_05_000000_public_form_and_options ..................... 70.02ms DONE
+  2021_04_21_165617_add_options_to_custom_view_sort ............. 36.21ms DONE
+  2021_07_14_160709_add_column_type_to_operation ................. 3.88ms DONE
+  2021_07_15_092440_patch_import_export_permission ............... 0.96ms DONE
+  2021_12_02_000000_patch_mail_attachments ....................... 2.41ms DONE
+  2022_01_01_000000_workflow_patch ............................... 9.54ms DONE
+  2022_01_11_000000_patch_mail_custom_attachments ................ 2.40ms DONE
+  2022_01_13_133748_patch_laravel8 ............................... 6.44ms DONE
+  2022_01_18_000000_patch_custom_column_editable_userinfo ........ 1.28ms DONE
+  2022_06_17_133748_patch_php8 ................................... 1.63ms DONE
+  2022_10_07_000000_role_groups_patch_221007 ..................... 7.82ms DONE
+  2024_04_09_154530_add_order_to_custom_views .................... 3.92ms DONE
+  2024_05_23_174625_patch_send_mail_error_template ............... 6.02ms DONE
+  2024_06_27_123443_create_table_jan_code ........................ 7.88ms DONE
+
+
+   INFO  Seeding database.  
+
+/home/runner/work/test-boilerplate/test-boilerplate/app/Admin directory already exists ! 
+
+   INFO  Seeding database.  
+
+   INFO  Seeding database.  
+
+> @php vendor/bin/phpunit ./vendor/exceedone/exment/tests/Feature
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.31
+Configuration: /home/runner/work/test-boilerplate/test-boilerplate/phpunit.xml
+
+.........................................................S.....  63 / 537 ( 11%)
+............................................................... 126 / 537 ( 23%)
+............................................................... 189 / 537 ( 35%)
+............................................................... 252 / 537 ( 46%)
+............................................................... 315 / 537 ( 58%)
+............................................................... 378 / 537 ( 70%)
+............................................................... 441 / 537 ( 82%)
+............................................................... 504 / 537 ( 93%)
+.................................                               537 / 537 (100%)
+
+Time: 02:48.269, Memory: 227.51 MB
+
+OK, but some tests were skipped!
+Tests: 537, Assertions: 16420, Skipped: 1.
+
+=== Unit tests ===
+> Composer\Config::disableProcessTimeout
+> Composer\Config::disableProcessTimeout
+> @php artisan exment:inittest --yes
+
+   INFO  Application cache cleared successfully.  
+
+   INFO  Rolling back migrations.  
+
+  2024_06_27_123443_create_table_jan_code ........................ 2.98ms DONE
+  2024_05_23_174625_patch_send_mail_error_template ............... 0.04ms DONE
+  2024_04_09_154530_add_order_to_custom_views .................... 3.80ms DONE
+  2022_10_07_000000_role_groups_patch_221007 ..................... 6.34ms DONE
+  2022_06_17_133748_patch_php8 ................................... 4.60ms DONE
+  2022_01_18_000000_patch_custom_column_editable_userinfo ........ 0.04ms DONE
+  2022_01_13_133748_patch_laravel8 ............................... 1.62ms DONE
+  2022_01_11_000000_patch_mail_custom_attachments ................ 0.03ms DONE
+  2022_01_01_000000_workflow_patch ............................... 7.64ms DONE
+  2021_12_02_000000_patch_mail_attachments ....................... 0.06ms DONE
+  2021_07_15_092440_patch_import_export_permission ............... 0.05ms DONE
+  2021_07_14_160709_add_column_type_to_operation ................. 3.35ms DONE
+  2021_04_21_165617_add_options_to_custom_view_sort ............. 23.00ms DONE
+  2021_03_05_000000_public_form_and_options ...................... 1.65ms DONE
+  2021_02_13_000000_patch_condition_data ......................... 0.04ms DONE
+  2021_01_05_000000_plugin_view .................................. 5.15ms DONE
+  2020_12_15_000000_patch_calc_data .............................. 0.03ms DONE
+  2020_10_23_000000_patch_view_only .............................. 0.03ms DONE
+  2020_09_29_000000_workflow_value_view .......................... 1.24ms DONE
+  2020_09_25_000000_update_notify_logic .......................... 9.85ms DONE
+  2020_08_14_000000_patch_view_filters ........................... 0.04ms DONE
+  2020_07_16_000000_patch_view_dashboard ......................... 0.04ms DONE
+  2020_07_15_160217_external_custom_operation .................... 9.88ms DONE
+  2020_07_03_160259_support_for_v3_4_0 ........................... 0.04ms DONE
+  2020_06_25_000000_append_view_column_suuid .................... 14.96ms DONE
+  2020_06_16_000000_patch_form_column_relation ................... 0.04ms DONE
+  2020_06_14_000000_support_for_v3_3_0 .......................... 10.59ms DONE
+  2020_05_05_000000_support_for_v3_2_0 ........................... 9.14ms DONE
+  2020_05_01_000000_patch_log_operation_update ................... 0.06ms DONE
+  2020_04_07_125924_add_options_to_workflows ..................... 3.22ms DONE
+  2020_04_02_000000_api_auth_api_key ............................. 5.90ms DONE
+  2020_03_22_000000_patch_dashboard_box .......................... 0.04ms DONE
+  2020_02_26_000000_add_notify_name .............................. 3.58ms DONE
+  2020_02_20_155520_add_options_to_filters ....................... 7.34ms DONE
+  2020_01_16_000000_remove_deleted_column ........................ 0.03ms DONE
+  2019_09_19_093842_support_for_v3_0_0 .......................... 16.70ms DONE
+  2019_09_19_093842_support_for_v2_1_7 ........................... 1.36ms DONE
+  2019_09_12_120518_support_for_v2_1_4 ........................... 0.03ms DONE
+  2019_08_19_151648_support_for_v2_1 ............................. 2.66ms DONE
+  2019_08_07_095018_init_column .................................. 0.03ms DONE
+  2019_07_12_120518_support_for_v2_0 ............................. 7.58ms DONE
+  2019_07_11_105602_support_for_v1_4 ............................. 1.02ms DONE
+  2019_06_18_135639_update_custom_view_summary ................... 3.22ms DONE
+  2019_06_12_193431_support_for_v1_3 ............................. 0.04ms DONE
+  2019_06_06_130456_plugin_custom_option ......................... 0.03ms DONE
+  2019_05_28_165146_create_custom_column_multi ................... 1.38ms DONE
+  2019_05_23_165335_patch_user_accessable ........................ 0.05ms DONE
+  2019_05_18_164730_support_for_v1_2 ............................. 9.47ms DONE
+  2019_04_25_185014_drop_unique_keys ............................. 6.55ms DONE
+  2019_04_15_115120_support_for_v1_1 ............................ 21.73ms DONE
+  2019_03_28_185921_oauth_clientid_uuid .......................... 6.10ms DONE
+  2019_03_11_193513_patch_authoritable ........................... 0.03ms DONE
+  2018_04_27_021034_create_table_define ......................... 98.04ms DONE
+  2016_01_04_173148_create_admin_tables .......................... 7.83ms DONE
+  0001_01_01_000002_create_jobs_table ............................ 3.27ms DONE
+  0001_01_01_000001_create_cache_table ........................... 2.26ms DONE
+  0001_01_01_000000_create_users_table ........................... 3.44ms DONE
+
+
+   INFO  Publishing [open-admin-lang-exment] assets.  
+
+  Copying directory [open-admin-core/resources/lang] to [resources/lang]  DONE
+
+   INFO  Publishing [open-admin-assets-exment] assets.  
+
+  Copying directory [open-admin-core/resources/assets] to [public/vendor/open-admin]  DONE
+
+   INFO  Publishing [public] assets.  
+
+  Copying directory [exment/public] to [public] ......................... DONE
+
+   INFO  Publishing [views_vendor] assets.  
+
+  Copying directory [exment/resources/views/vendor] to [resources/views/vendor]  DONE
+
+   INFO  Publishing [lang_vendor] assets.  
+
+  Copying directory [exment/resources/lang_vendor] to [resources/lang] .. DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table .......................... 15.08ms DONE
+  0001_01_01_000001_create_cache_table ........................... 3.24ms DONE
+  0001_01_01_000002_create_jobs_table ........................... 10.10ms DONE
+  2016_01_04_173148_create_admin_tables ......................... 44.62ms DONE
+  2018_04_27_021034_create_table_define ........................ 250.16ms DONE
+  2019_03_11_193513_patch_authoritable ........................... 2.40ms DONE
+  2019_03_28_185921_oauth_clientid_uuid ......................... 22.71ms DONE
+  2019_04_15_115120_support_for_v1_1 ............................ 45.30ms DONE
+  2019_04_25_185014_drop_unique_keys ............................. 6.43ms DONE
+  2019_05_18_164730_support_for_v1_2 ............................ 94.55ms DONE
+  2019_05_23_165335_patch_user_accessable ........................ 2.13ms DONE
+  2019_05_28_165146_create_custom_column_multi ................... 5.15ms DONE
+  2019_06_06_130456_plugin_custom_option ......................... 5.31ms DONE
+  2019_06_12_193431_support_for_v1_3 ............................. 5.84ms DONE
+  2019_06_18_135639_update_custom_view_summary ................... 3.16ms DONE
+  2019_07_11_105602_support_for_v1_4 ............................ 13.73ms DONE
+  2019_07_12_120518_support_for_v2_0 ............................ 90.77ms DONE
+  2019_08_07_095018_init_column .................................. 1.65ms DONE
+  2019_08_19_151648_support_for_v2_1 ............................ 12.01ms DONE
+  2019_09_12_120518_support_for_v2_1_4 .......................... 14.74ms DONE
+  2019_09_19_093842_support_for_v2_1_7 ........................... 7.82ms DONE
+  2019_09_19_093842_support_for_v3_0_0 ......................... 134.53ms DONE
+  2020_01_16_000000_remove_deleted_column ........................ 5.22ms DONE
+  2020_02_20_155520_add_options_to_filters ....................... 4.94ms DONE
+  2020_02_26_000000_add_notify_name .............................. 3.69ms DONE
+  2020_03_22_000000_patch_dashboard_box .......................... 1.12ms DONE
+  2020_04_02_000000_api_auth_api_key ............................ 12.89ms DONE
+  2020_04_07_125924_add_options_to_workflows ..................... 3.28ms DONE
+  2020_05_01_000000_patch_log_operation_update ................... 1.09ms DONE
+  2020_05_05_000000_support_for_v3_2_0 ........................... 7.68ms DONE
+  2020_06_14_000000_support_for_v3_3_0 .......................... 34.05ms DONE
+  2020_06_16_000000_patch_form_column_relation ................... 0.61ms DONE
+  2020_06_25_000000_append_view_column_suuid .................... 15.02ms DONE
+  2020_07_03_160259_support_for_v3_4_0 ........................... 1.20ms DONE
+  2020_07_15_160217_external_custom_operation .................... 9.97ms DONE
+  2020_07_16_000000_patch_view_dashboard ......................... 2.63ms DONE
+  2020_08_14_000000_patch_view_filters ........................... 3.29ms DONE
+  2020_09_25_000000_update_notify_logic .......................... 6.92ms DONE
+  2020_09_29_000000_workflow_value_view .......................... 4.75ms DONE
+  2020_10_23_000000_patch_view_only .............................. 0.64ms DONE
+  2020_12_15_000000_patch_calc_data .............................. 0.58ms DONE
+  2021_01_05_000000_plugin_view .................................. 5.34ms DONE
+  2021_02_13_000000_patch_condition_data ......................... 0.93ms DONE
+  2021_03_05_000000_public_form_and_options ..................... 63.92ms DONE
+  2021_04_21_165617_add_options_to_custom_view_sort ............. 28.13ms DONE
+  2021_07_14_160709_add_column_type_to_operation ................. 3.48ms DONE
+  2021_07_15_092440_patch_import_export_permission ............... 0.94ms DONE
+  2021_12_02_000000_patch_mail_attachments ....................... 2.37ms DONE
+  2022_01_01_000000_workflow_patch .............................. 11.02ms DONE
+  2022_01_11_000000_patch_mail_custom_attachments ................ 2.34ms DONE
+  2022_01_13_133748_patch_laravel8 ............................... 4.51ms DONE
+  2022_01_18_000000_patch_custom_column_editable_userinfo ........ 0.72ms DONE
+  2022_06_17_133748_patch_php8 ................................... 1.00ms DONE
+  2022_10_07_000000_role_groups_patch_221007 ..................... 5.94ms DONE
+  2024_04_09_154530_add_order_to_custom_views .................... 6.27ms DONE
+  2024_05_23_174625_patch_send_mail_error_template ............... 6.00ms DONE
+  2024_06_27_123443_create_table_jan_code ........................ 6.91ms DONE
+
+
+   INFO  Seeding database.  
+
+/home/runner/work/test-boilerplate/test-boilerplate/app/Admin directory already exists ! 
+
+   INFO  Seeding database.  
+
+   INFO  Seeding database.  
+
+> @php vendor/bin/phpunit ./vendor/exceedone/exment/tests/Unit
+PHPUnit 11.5.55 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.2.31
+Configuration: /home/runner/work/test-boilerplate/test-boilerplate/phpunit.xml
+
+.............................................................   61 / 1126 (  5%)
+.............................................................  122 / 1126 ( 10%)
+.............................................................  183 / 1126 ( 16%)
+.............................................................  244 / 1126 ( 21%)
+............................................SS...............  305 / 1126 ( 27%)
+.............................................................  366 / 1126 ( 32%)
+.............................................................  427 / 1126 ( 37%)
+.............................................................  488 / 1126 ( 43%)
+.............................................................  549 / 1126 ( 48%)
+.............................................................  610 / 1126 ( 54%)
+.............................................................  671 / 1126 ( 59%)
+.............................................................  732 / 1126 ( 65%)
+.............................................................  793 / 1126 ( 70%)
+.............................................................  854 / 1126 ( 75%)
+.............................................................  915 / 1126 ( 81%)
+.............................................................  976 / 1126 ( 86%)
+............................................................. 1037 / 1126 ( 92%)
+.....................................................PHP version 8.2.31 (/usr/bin/php8.2)
+Run the "diagnose" command to get more detailed diagnostics output.
+PHP version 8.2.31 (/usr/bin/php8.2)
+Run the "diagnose" command to get more detailed diagnostics output.
+........ 1098 / 1126 ( 97%)
+............................                                  1126 / 1126 (100%)
+
+Time: 02:06.589, Memory: 196.50 MB
+
+OK, but some tests were skipped!
+Tests: 1126, Assertions: 20395, Skipped: 2.
