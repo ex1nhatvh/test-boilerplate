@@ -13,6 +13,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        suite: [browser, feature, unit]
 
     services:
       mariadb:
@@ -25,7 +28,7 @@ jobs:
         options: >-
           --health-cmd="healthcheck.sh --connect --innodb_initialized"
           --health-interval=10s
-          --health-timeout=5s
+          --health-timeout=10s
           --health-retries=10
 
     steps:
@@ -111,46 +114,79 @@ jobs:
       - name: Clear Config Cache
         run: php artisan config:clear
 
-      - name: Run Exment Tests and capture output
-        id: run-tests
+      - name: Run suite
+        id: run-suite
         run: |
           set -o pipefail
-          rm -f output.txt
-          echo '=== Browser tests ===' | tee -a output.txt
-          composer run exment:test:browser 2>&1 | tee -a output.txt
-          code1=${PIPESTATUS[0]}
+          rm -f output-${{ matrix.suite }}.txt exit-${{ matrix.suite }}.code || true
+          echo "=== ${{ matrix.suite }} tests ===" | tee -a output-${{ matrix.suite }}.txt
+          composer run exment:test:${{ matrix.suite }} 2>&1 | tee -a output-${{ matrix.suite }}.txt
+          code=$?
+          echo $code > exit-${{ matrix.suite }}.code
+        continue-on-error: true
 
-          echo '' | tee -a output.txt
-          echo '=== Feature tests ===' | tee -a output.txt
-          composer run exment:test:feature 2>&1 | tee -a output.txt
-          code2=${PIPESTATUS[0]}
+      - name: Upload suite output
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: output-${{ matrix.suite }}
+          path: |
+            output-${{ matrix.suite }}.txt
+            exit-${{ matrix.suite }}.code
+          retention-days: 30
 
-          echo '' | tee -a output.txt
-          echo '=== Unit tests ===' | tee -a output.txt
-          composer run exment:test:unit 2>&1 | tee -a output.txt
-          code3=${PIPESTATUS[0]}
+  summarize:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Combine artifacts
+        id: combine
+        run: |
+          mkdir -p results
+          for s in browser feature unit; do
+            dir="artifacts/output-$s"
+            if [ -d "$dir" ]; then
+              echo "=== $s tests ===" >> results/output.txt
+              # prefer the primary output file if present
+              if [ -f "$dir/output-$s.txt" ]; then
+                cat "$dir/output-$s.txt" >> results/output.txt
+              else
+                cat $dir/*.txt >> results/output.txt || true
+              fi
+              echo "" >> results/output.txt
+            fi
+            if [ -f "$dir/exit-$s.code" ]; then
+              cp "$dir/exit-$s.code" exit-$s.code
+            fi
+          done
 
           EXIT_CODE=0
-          if [ "$code1" -ne 0 ]; then
-            EXIT_CODE=$code1
-          elif [ "$code2" -ne 0 ]; then
-            EXIT_CODE=$code2
-          elif [ "$code3" -ne 0 ]; then
-            EXIT_CODE=$code3
-          fi
+          for c in exit-browser.code exit-feature.code exit-unit.code; do
+            if [ -f "$c" ]; then
+              code=$(cat "$c" | tr -d '[:space:]')
+              if [ "$code" -ne 0 ]; then
+                EXIT_CODE=$code
+              fi
+            fi
+          done
 
           echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
-          exit $EXIT_CODE
-        continue-on-error: true
 
       - name: Write Test Summary
         run: |
           echo "## Exment Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Exit Code:** ${{ steps.run-tests.outputs.exit_code }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Exit Code:** ${{ steps.combine.outputs.exit_code }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          tail -50 output.txt >> $GITHUB_STEP_SUMMARY
+          if [ -f results/output.txt ]; then
+            tail -n 200 results/output.txt >> $GITHUB_STEP_SUMMARY
+          fi
           echo '```' >> $GITHUB_STEP_SUMMARY
 
       - name: Upload test output as artifact
@@ -158,7 +194,7 @@ jobs:
         if: always()
         with:
           name: test-output
-          path: output.txt
+          path: results/output.txt
           retention-days: 30
 
       - name: Commit output.txt to test-results branch
@@ -166,19 +202,19 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          cp results/output.txt output.txt || true
           git fetch origin test-results 2>/dev/null || true
           git checkout --orphan test-results-temp
           git reset --hard
-          cp output.txt output.txt.tmp
-          git checkout . 2>/dev/null || true
-          cp output.txt.tmp output.txt
-          git add output.txt
-          git commit -m "Test results from run ${{ github.run_number }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))"
-          git push origin HEAD:test-results --force
+          git add output.txt || true
+          git commit -m "Test results from run ${{ github.run_number }} ($(date -u +%Y-%m-%dT%H:%M:%SZ))" || true
+          git push origin HEAD:test-results --force || true
         continue-on-error: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail if tests failed
-        if: steps.run-tests.outputs.exit_code != '0'
-        run: exit 1
+        if: ${{ steps.combine.outputs.exit_code != '0' }}
+        run: |
+          echo "One or more suites failed (exit=${{ steps.combine.outputs.exit_code }})."
+          exit ${{ steps.combine.outputs.exit_code }}
