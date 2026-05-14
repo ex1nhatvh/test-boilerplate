@@ -1,0 +1,84 @@
+name: Setup Exment
+description: Common setup for Exment CI
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up PHP 8.2
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: "8.2"
+        extensions: pdo_mysql, mysql, mbstring, xml, openssl, gd, zip, bcmath, intl, fileinfo, tokenizer, json, curl
+        ini-values: memory_limit=-1, max_execution_time=600
+        coverage: none
+
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      shell: bash
+      run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v4
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+
+    - name: Cache vendor
+      uses: actions/cache@v4
+      with:
+        path: vendor
+        key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+
+    - name: Install Composer dependencies
+      shell: bash
+      run: composer install --prefer-dist --no-interaction --no-progress --no-scripts
+
+    - name: Create .env file
+      shell: bash
+      run: |
+        cat > .env << 'ENVEOF'
+        APP_NAME=Exment
+        APP_ENV=testing
+        APP_DEBUG=true
+        APP_URL=http://localhost
+        APP_TIMEZONE=Asia/Tokyo
+        APP_LOCALE=ja
+
+        DB_CONNECTION=mariadb
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=taisandambao
+        DB_USERNAME=root
+        DB_PASSWORD=password
+
+        CACHE_STORE=file
+        SESSION_DRIVER=file
+        QUEUE_CONNECTION=sync
+        MAIL_MAILER=array
+        ENVEOF
+
+        sed -i 's/^[[:space:]]*//' .env
+
+    - name: Generate APP_KEY
+      shell: bash
+      run: |
+        KEY=$(php -r "echo 'base64:'.base64_encode(random_bytes(32));")
+
+        if grep -q '^APP_KEY=' .env; then
+          sed -i "s/^APP_KEY=.*/APP_KEY=$KEY/" .env
+        else
+          echo "APP_KEY=$KEY" >> .env
+        fi
+
+    - name: Generate Passport RSA keys
+      shell: bash
+      run: php artisan passport:keys --force
+
+    - name: Clear Config Cache
+      shell: bash
+      run: php artisan config:clear
