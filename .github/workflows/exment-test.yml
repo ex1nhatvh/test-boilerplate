@@ -157,6 +157,5 @@ jobs:
           cp vendor/exceedone/exment/phpstan.neon.dist .
 
       - name: Run PHPStan
-        working-directory: exment
         run: |
-          ./vendor/bin/phpstan analyse
+          vendor/bin/phpstan analyse -c phpstan.neon.dist exment
