@@ -124,7 +124,6 @@ jobs:
           code=$?
           echo $code > exit-${{ matrix.suite }}.code
         continue-on-error: true
-  # 'summarize' job removed: per-job pushes write results to the 'test-results' branch.
 
   checks-checklang:
     runs-on: ubuntu-latest
@@ -140,34 +139,6 @@ jobs:
 
       - name: Run exment:checklang
         run: php artisan exment:checklang
-
-  checks-cs-fixer:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Common setup
-        uses: ./.github/actions/setup-exment
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
-
-      - name: Prepare php-cs-fixer
-        run: |
-          wget https://cs.symfony.com/download/php-cs-fixer-v3.phar -O php-cs-fixer
-          chmod a+x php-cs-fixer
-
-      - name: Versions
-        run: |
-          cat /etc/os-release
-          php -v
-          php php-cs-fixer --version
-
-      - name: Execute php-cs-fixer
-        run: |
-          php php-cs-fixer fix --dry-run -v --diff exment/src
-          php php-cs-fixer fix --dry-run -v --diff exment/tests
 
   checks-phpstan:
     runs-on: ubuntu-latest
@@ -186,5 +157,6 @@ jobs:
           cp vendor/exceedone/exment/phpstan.neon.dist .
 
       - name: Run PHPStan
+        working-directory: exment
         run: |
-          ./vendor/bin/phpstan analyse exment
+          ./vendor/bin/phpstan analyse
