@@ -135,6 +135,8 @@ jobs:
 
       - name: Common setup
         uses: ./.github/actions/setup-exment
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
 
       - name: Run exment:checklang
         run: php artisan exment:checklang
@@ -148,6 +150,8 @@ jobs:
 
       - name: Common setup
         uses: ./.github/actions/setup-exment
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
 
       - name: Prepare php-cs-fixer
         run: |
@@ -174,6 +178,8 @@ jobs:
 
       - name: Common setup
         uses: ./.github/actions/setup-exment
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
 
       - name: Prepare PHPStan
         run: |

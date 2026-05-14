@@ -13,6 +13,25 @@ runs:
         ini-values: memory_limit=-1, max_execution_time=600
         coverage: none
 
+    - name: Clone local path dependencies
+      shell: bash
+      run: |
+        if [ -n "$GH_PAT" ]; then
+          git clone --depth=1 --branch feature/laravel-12 \
+            "https://x-access-token:${GH_PAT}@github.com/exceedone/exment.git" exment
+
+          git clone --depth=1 --branch feature/laravel-12 \
+            "https://x-access-token:${GH_PAT}@github.com/ex1nhatvh/open-admin-core.git" open-admin-core
+        else
+          git clone --depth=1 --branch feature/laravel-12 \
+            "https://github.com/exceedone/exment.git" exment
+
+          git clone --depth=1 --branch feature/laravel-12 \
+            "https://github.com/ex1nhatvh/open-admin-core.git" open-admin-core
+        fi
+      env:
+        GH_PAT: ${{ env.GH_PAT }}
+
     - name: Get Composer Cache Directory
       id: composer-cache
       shell: bash
