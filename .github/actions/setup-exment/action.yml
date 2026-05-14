@@ -5,9 +5,6 @@ runs:
   using: "composite"
 
   steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
     - name: Set up PHP 8.2
       uses: shivammathur/setup-php@v2
       with:
@@ -25,14 +22,14 @@ runs:
       uses: actions/cache@v4
       with:
         path: ${{ steps.composer-cache.outputs.dir }}
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
         restore-keys: ${{ runner.os }}-composer-
 
     - name: Cache vendor
       uses: actions/cache@v4
       with:
         path: vendor
-        key: ${{ runner.os }}-vendor-${{ hashFiles('**/composer.lock') }}
+        key: ${{ runner.os }}-vendor-${{ hashFiles('composer.lock') }}
 
     - name: Install Composer dependencies
       shell: bash
