@@ -52,7 +52,7 @@ runs:
 
     - name: Install Composer dependencies
       shell: bash
-      run: composer install --prefer-dist --no-interaction --no-progress --no-scripts
+      run: composer update --prefer-dist --no-interaction --no-progress --no-scripts
 
     - name: Create .env file
       shell: bash
