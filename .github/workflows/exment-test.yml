@@ -155,12 +155,17 @@ jobs:
       - name: Prepare PHPStan
         run: |
           cp vendor/exceedone/exment/phpstan.neon.dist .
+          # If the larastan extension file is not installed at the repository root,
+          # remove the include and comment out the includes block to avoid failure.
+          if [ ! -f vendor/nunomaduro/larastan/extension.neon ]; then
+            sed -i '/vendor\/nunomaduro\/larastan\/extension.neon/d' phpstan.neon.dist || true
+            sed -i 's/^includes:/#includes:/' phpstan.neon.dist || true
+          fi
 
       - name: Run PHPStan
         run: |
           set -o pipefail
           vendor/bin/phpstan analyse -c phpstan.neon.dist exment --error-format=json > phpstan.json || true
-        continue-on-error: true
 
       - name: Upload PHPStan report
         uses: actions/upload-artifact@v4
